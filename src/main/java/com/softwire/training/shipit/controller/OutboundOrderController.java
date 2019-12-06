@@ -43,8 +43,7 @@ public class OutboundOrderController extends BaseController
             HttpServletRequest request,
             HttpServletResponse response) throws Exception
     {
-        OutboundOrder outboundOrder = OutboundOrder.parseXML((Element)
-                XMLParsingUtils.getSingleElementByTagName(documentElement, "outboundOrder"));
+        OutboundOrder outboundOrder = OutboundOrder.parseXML((Element) XMLParsingUtils.getSingleElementByTagName(documentElement, "outboundOrder"));
 
         sLog.info(String.format("Processing outbound order: %s", outboundOrder));
 

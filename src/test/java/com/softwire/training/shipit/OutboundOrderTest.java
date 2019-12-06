@@ -52,9 +52,8 @@ public class OutboundOrderTest extends AbstractBaseTest
                 "<outboundOrderLine><gtin>43294842</gtin><quantity>723412</quantity></outboundOrderLine>" +
                 "</orderLines>" +
                 "</outboundOrder>";
-        assertEquals(OutboundOrder.parseXML(buildXMLFragment(xml)), new OutboundOrder(2, Arrays.asList(
-                new OrderLine("10879210", 4),
-                new OrderLine("43294842", 723412))));
+        assertEquals(OutboundOrder.parseXML(buildXMLFragment(xml)), new OutboundOrder(2, Arrays.asList( new OrderLine("10879210", 4),
+                                                                                                                    new OrderLine("43294842", 723412))));
     }
 
     public void testOutboundOrder() throws Exception

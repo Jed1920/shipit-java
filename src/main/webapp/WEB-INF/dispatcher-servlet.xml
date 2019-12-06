@@ -82,9 +82,9 @@
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 
-        <property name="url" value="${JDBC_CONNECTION_STRING}"/>
+        <property name="url" value="jdbc:mysql://localhost/evilwarehouseco"/>
         <property name="username" value="root"/>
-        <property name="password" value="${MYSQL_PASSWORD}"/>
+        <property name="password" value="password"/>
 
         <property name="initialSize" value="3"/>
         <property name="maxActive" value="10"/>
