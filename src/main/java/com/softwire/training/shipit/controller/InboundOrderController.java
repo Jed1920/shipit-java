@@ -73,24 +73,30 @@ public class InboundOrderController extends BaseController
         sLog.info("orderIn for warehouse ID: " + warehouseId);
 
         List<Employee> operationsManagers = employeeDAO.getEmployees(warehouseId, EmployeeRole.OPERATIONS_MANAGER);
+
         if (operationsManagers.size() != 1)
         {
             throw new InvalidStateException(
                     "There should be exactly one operations manager per warehouse, but found: " + operationsManagers);
         }
         Employee operationsManager = operationsManagers.get(0);
-        sLog.debug(String.format("Found operations manager: %s", operationsManager));
+        sLog.info(String.format("Found operations manager: %s", operationsManager));
 
         List<Stock> allStock = stockDAO.getStock(warehouseId);
+        sLog.info(String.format("Found all stock in warehouse: %s", warehouseId));
 
         Map<Company, List<InboundOrderLine>> orderlinesByCompany = new HashMap<Company, List<InboundOrderLine>>();
 
         for (Stock item : allStock)
         {
             Product product = productDAO.getProduct(item.getProductId());
+            sLog.info(String.format("Found product: %s", product.getName()));
+
             if (item.getHeld() < product.getLowerThreshold() && !product.isDiscontinued())
             {
                 Company company = companyDAO.getCompany(product.getGcp());
+                sLog.info(String.format("Found company: %s", company.getName()));
+
                 int orderQuantity = NumberUtils.max(
                         product.getLowerThreshold() * 3 - item.getHeld(), product.getMinimumOrderQuantity());
 

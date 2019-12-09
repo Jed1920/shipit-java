@@ -10,6 +10,8 @@ import com.softwire.training.shipit.utils.TransactionManagerUtils;
 import com.softwire.training.shipit.utils.XMLParsingUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -18,6 +20,7 @@ import org.w3c.dom.Element;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +60,8 @@ public class OutboundOrderController extends BaseController
         List<StockAlteration> lineItems = new ArrayList<StockAlteration>();
         List<Integer> productIds = new ArrayList<Integer>();
         List<String> errors = new ArrayList<String>();
+        List<OrderedProduct> orderedProducts = new ArrayList<OrderedProduct>();
+
         for (OrderLine orderLine : outboundOrder.getOrderLines())
         {
             Product product = products.get(orderLine.getGtin());
@@ -70,6 +75,13 @@ public class OutboundOrderController extends BaseController
                 Integer productId = product.getId();
                 lineItems.add(new StockAlteration(productId, orderLine.getQuantity()));
                 productIds.add(productId);
+
+                OrderedProduct orderedProduct = new OrderedProduct();
+                orderedProduct.setGtin(product.getGtin());
+                orderedProduct.setProductWeight(product.getWeight());
+                orderedProduct.setQuantity(orderLine.getQuantity());
+
+                orderedProducts.add(orderedProduct);
             }
         }
 
