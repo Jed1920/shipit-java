@@ -87,9 +87,16 @@ public class InboundOrderController extends BaseController
 
         Map<Company, List<InboundOrderLine>> orderlinesByCompany = new HashMap<Company, List<InboundOrderLine>>();
 
+        List<Product> allProducts = new ArrayList<Product>();
+
         for (Stock item : allStock)
         {
             Product product = productDAO.getProduct(item.getProductId());
+//            allProducts.add(product);
+//
+//            Comparator<Product> compareByTime = (Bus o1, Bus o2) -> o1.getTimeToStation().compareTo(o2.getTimeToStation());
+//            Collections.sort(busList, compareByTime);
+
             sLog.info(String.format("Found product: %s", product.getName()));
 
             if (item.getHeld() < product.getLowerThreshold() && !product.isDiscontinued())
